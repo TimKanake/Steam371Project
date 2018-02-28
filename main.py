@@ -31,30 +31,38 @@ def get_platforms(platforms_dict):
 
 
 def create_text_file(data):
-	games_data = []
+	games_data = {}
 	for g in data:
 		if g is not None:
 			try:
-				if g['data']['type'] is not 'game':
+				game = g['data']
+				if game['type'] != 'game':
 					continue
 				game = g['data']
 				game_name = game['name']
 				game_genres = get_genres(game['genres'])
-				game_price = game['price_overview']['initial']
+				try:
+					game_price = game['price_overview']['initial']
+				except KeyError:
+					game_price = None
 				supported_platforms = get_platforms(game['platforms'])
 				required_age = game['required_age']
-				rating = game['metacritic']['score']
-
+				try:
+					rating = game['metacritic']['score']
+				except KeyError:
+					rating = None
 				temp = [game_name, game_genres, game_price, supported_platforms, required_age, rating]
-
 				games_data[game_name] = temp
-			except:
+			except KeyError:
 				continue
 
 	return games_data
 
 
-data = pass_json_data('games.json')
-te = create_text_file(data)
+data1 = pass_json_data('games.json')
+te = create_text_file(data1)
 
-print te[34]
+
+for k in te.keys():
+
+	print te[k], '\n\n\n'
