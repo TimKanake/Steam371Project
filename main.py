@@ -5,6 +5,7 @@ import string
 printable = set(string.printable)
 start_time = time.time()
 
+import re
 
 def pass_json_data(file_name):
 	data = []
@@ -46,7 +47,7 @@ def create_text_file(json_file_name):
 				if game['type'] != 'game':
 					continue
 				game = g['data']
-				game_name = game['name']
+				game_name = game['name'].replace('!','')
 				game_genres = get_genres(game['genres'])
 				try:
 					game_price = game['price_overview']['initial']
@@ -64,9 +65,10 @@ def create_text_file(json_file_name):
 				continue
 
 	with open('games.txt', 'w') as f:
+		f.write('(in-microtheory SteamGamesMt)\n')
 		for k in games_data.keys():
 			# record game name
-			game_name = filter(lambda x: x in printable, k.replace(" ", ""))
+			game_name = re.sub('[^0-9a-zA-Z]+', '*', k.replace(" ",""))
 			f.write('(isa ' + str(game_name) + ' ComputerGameProgram)\n')
 			f.write('(gameName ' + str(game_name) + ')\n')
 
