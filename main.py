@@ -67,6 +67,7 @@ def create_text_file(json_file_name):
 		for k in games_data.keys():
 			# record game name
 			game_name = filter(lambda x: x in printable, k.replace(" ", ""))
+			f.write('(isa ' + str(game_name) + ' ComputerGameProgram)\n')
 			f.write('(gameName ' + str(game_name) + ')\n')
 
 			# record game price
@@ -74,8 +75,8 @@ def create_text_file(json_file_name):
 			f.write('(price ' + str(game_name) + ' ' + str(game_price) + ')\n')
 
 			# record game rating
-			game_rating = int(games_data[k][5])
-			f.write('(rating ' + str(game_name) + ' ' + str(game_rating) + ')\n')
+			# game_rating = int(games_data[k][5])
+			# f.write('(rating ' + str(game_name) + ' ' + str(game_rating) + ')\n')
 
 			# record required age
 			game_age = int(games_data[k][4])
